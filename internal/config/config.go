@@ -7,8 +7,8 @@ import (
 )
 
 type Config struct {
-	Host    string
-	Port    string
+	Host string
+	Port string
 	// FrontendURL используется для CORS и редиректа после OAuth.
 	FrontendURL string
 
@@ -20,8 +20,8 @@ type Config struct {
 	// Google OAuth2 — авторизация через Google-аккаунт.
 	GoogleClientID          string
 	GoogleClientSecret      string
-	GoogleRedirectURL       string      // для веб-клиента
-	GoogleMobileRedirectURL string      // для мобильного приложения
+	GoogleRedirectURL       string // для веб-клиента
+	GoogleMobileRedirectURL string // для мобильного приложения
 
 	// RSA-ключи убраны: мы больше не используем JWT.
 	// Сессии хранятся как opaque-токены в Redis.
@@ -35,7 +35,7 @@ type Config struct {
 	RedisAddr string
 
 	// S3 — для хранения файлов записей (пока не реализовано).
-	S3KeyId    string
+	S3KeyId     string
 	S3KeySecret string
 	S3Endpoint  string
 	S3Bucket    string

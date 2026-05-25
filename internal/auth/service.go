@@ -30,8 +30,8 @@ type Service interface {
 }
 
 type authService struct {
-	users    user.Repository  // SQLite: постоянное хранилище пользователей
-	sessions session.Store    // Redis: быстрое хранилище активных сессий
+	users    user.Repository // SQLite: постоянное хранилище пользователей
+	sessions session.Store   // Redis: быстрое хранилище активных сессий
 }
 
 func NewService(users user.Repository, sessions session.Store) Service {

@@ -2,7 +2,8 @@
 // Является одним из провайдеров авторизации.
 //
 // Чтобы добавить новый провайдер (например GitHub):
-//   internal/auth/provider/github/handler.go — пакет github
+//
+//	internal/auth/provider/github/handler.go — пакет github
 //
 // Каждый провайдер:
 //   - принимает auth.Service (для создания сессии)
