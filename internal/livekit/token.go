@@ -6,6 +6,11 @@ import (
 	"github.com/livekit/protocol/auth"
 )
 
+// Tokenizer is the interface room handlers depend on.
+type Tokenizer interface {
+	BuildConnectionDetails(roomName, participantName, metadata, identity string) (string, error)
+}
+
 type TokenService struct {
 	apiKey    string
 	apiSecret string
@@ -15,15 +20,7 @@ func NewTokenService(key, secret string) *TokenService {
 	return &TokenService{key, secret}
 }
 
-func (s *TokenService) BuildConnectionDetails(
-	roomName,
-	participantName,
-	metadata,
-	identity string,
-) (
-	token string,
-	err error,
-) {
+func (s *TokenService) BuildConnectionDetails(roomName, participantName, metadata, identity string) (string, error) {
 	at := auth.NewAccessToken(s.apiKey, s.apiSecret)
 
 	t := true

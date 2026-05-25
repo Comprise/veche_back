@@ -1,0 +1,19 @@
+version: "2"
+sql:
+  - engine: "sqlite"
+    # Откуда брать схему БД (наши миграции)
+    schema: "db/migrations/"
+    # Откуда брать SQL-запросы для генерации Go-кода
+    queries: "db/queries/"
+    gen:
+      go:
+        # Имя Go-пакета для сгенерированного кода
+        package: "dbsqlc"
+        # Куда положить сгенерированные файлы
+        out: "internal/dbsqlc"
+        # Добавлять json-теги к структурам (удобно для дебага)
+        emit_json_tags: true
+        # Точные имена таблиц в именах функций (false = users → User, не Users)
+        emit_exact_table_names: false
+        # Возвращать пустой слайс вместо nil (меньше nil-checks)
+        emit_empty_slices: true
