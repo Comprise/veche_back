@@ -32,6 +32,9 @@ func NewRouter(
 	// Мягкое извлечение сессии: если токен есть — кладём данные в контекст.
 	r.Use(middleware.ExtractSession(sessionStore))
 
+	// Health check — для балансировщиков и мониторинга.
+	r.GET("/health", func(c *gin.Context) { c.Status(http.StatusOK) })
+
 	// OAuth маршруты — обычные HTTP GET (браузер делает redirects).
 	r.GET("/auth/google/login", googleH.LoginForWeb)
 	r.GET("/auth/google/callback", googleH.Callback)

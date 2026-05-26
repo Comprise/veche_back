@@ -32,6 +32,12 @@ func main() {
 	}
 	defer db.Close()
 
+	// SQLite не поддерживает параллельную запись — один коннект достаточно.
+	// SetConnMaxLifetime(0) — держим коннект живым бесконечно (нет смысла переоткрывать файл).
+	db.SetMaxOpenConns(1)
+	db.SetMaxIdleConns(1)
+	db.SetConnMaxLifetime(0)
+
 	if err := runMigrations(cfg.DatabasePath); err != nil {
 		log.Fatalf("migrations: %v", err)
 	}

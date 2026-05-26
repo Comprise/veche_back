@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 
 	"veche/internal/jsonrpc"
 	"veche/internal/livekit"
@@ -55,6 +56,7 @@ func (h *Handler) GetConnectionDetails(c *gin.Context, params json.RawMessage) (
 	if err != nil || postfix == "" {
 		postfix, err = randomString(4)
 		if err != nil {
+			log.Printf("room.connectionDetails: generate postfix: %v", err)
 			return nil, jsonrpc.Internal("failed to generate postfix")
 		}
 		c.SetCookie("participant_postfix", postfix, 7200, "/", "", false, true)
@@ -67,6 +69,7 @@ func (h *Handler) GetConnectionDetails(c *gin.Context, params json.RawMessage) (
 		req.ParticipantName+"__"+postfix, // уникальный identity для LiveKit
 	)
 	if err != nil {
+		log.Printf("room.connectionDetails: build token room=%s participant=%s: %v", req.RoomName, req.ParticipantName, err)
 		return nil, jsonrpc.Internal("failed to generate token")
 	}
 
@@ -96,6 +99,7 @@ func (h *Handler) StartRecording(c *gin.Context, params json.RawMessage) (any, *
 		if errors.Is(err, livekit.ErrRecordingAlreadyActive) {
 			return nil, &jsonrpc.Error{Code: jsonrpc.CodeConflict, Message: "recording already active"}
 		}
+		log.Printf("room.startRecording: room=%s: %v", req.RoomName, err)
 		return nil, jsonrpc.Internal(fmt.Sprintf("start recording: %v", err))
 	}
 	return map[string]string{"status": "recording started"}, nil
@@ -120,6 +124,7 @@ func (h *Handler) StopRecording(c *gin.Context, params json.RawMessage) (any, *j
 		if errors.Is(err, livekit.ErrNoActiveRecording) {
 			return nil, &jsonrpc.Error{Code: jsonrpc.CodeNotFound, Message: "no active recording"}
 		}
+		log.Printf("room.stopRecording: room=%s: %v", req.RoomName, err)
 		return nil, jsonrpc.Internal(fmt.Sprintf("stop recording: %v", err))
 	}
 	return map[string]string{"status": "recording stopped"}, nil

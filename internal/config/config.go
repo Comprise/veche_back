@@ -23,9 +23,6 @@ type Config struct {
 	GoogleRedirectURL       string // для веб-клиента
 	GoogleMobileRedirectURL string // для мобильного приложения
 
-	// RSA-ключи убраны: мы больше не используем JWT.
-	// Сессии хранятся как opaque-токены в Redis.
-
 	// DatabasePath — путь к файлу SQLite.
 	// Например: "veche.db" или "/var/data/veche.db".
 	DatabasePath string
